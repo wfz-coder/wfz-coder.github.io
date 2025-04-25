@@ -16,18 +16,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>TLCL 学习笔记 - 云端知识库</title>
+  <title>The Linux Command Line 学习笔记 - 云端知识库</title>
 
   
-    <meta name="description" content="0. 前言1、当前版本：U2 2、本书梗概：Linux常用指令、Shell编程语法 3、备注：跳过了一些不重要或可被更简易程序&#x2F;语法替代的知识点   1. 什么是shell1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普通用户权限执行 2、系统后台持续运行中的虚拟终端可以通过按下 Ctrl-Alt-F1 到 Ctrl-Alt-F6 访问   2. 文件系统跳转1、pwd ：打印工作目">
+    <meta name="description" content="1. 什么是shell1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普通用户权限执行 2、系统后台持续运行中的虚拟终端可以通过按下 Ctrl-Alt-F1 到 Ctrl-Alt-F6 访问   2. 文件系统跳转1、pwd ：打印工作目录 2、ls ：列出工作目录下的文件与目录     参数为多个路径时，即可同时列出多个路径下的文件     -a ：列出所有文件，包括以&quot;.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TLCL 学习笔记">
-<meta property="og:url" content="https://acjb-github.github.io/2025/03/14/TLCL/index.html">
+<meta property="og:title" content="The Linux Command Line 学习笔记">
+<meta property="og:url" content="https://acjb-github.github.io/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="云端知识库">
-<meta property="og:description" content="0. 前言1、当前版本：U2 2、本书梗概：Linux常用指令、Shell编程语法 3、备注：跳过了一些不重要或可被更简易程序&#x2F;语法替代的知识点   1. 什么是shell1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普通用户权限执行 2、系统后台持续运行中的虚拟终端可以通过按下 Ctrl-Alt-F1 到 Ctrl-Alt-F6 访问   2. 文件系统跳转1、pwd ：打印工作目">
+<meta property="og:description" content="1. 什么是shell1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普通用户权限执行 2、系统后台持续运行中的虚拟终端可以通过按下 Ctrl-Alt-F1 到 Ctrl-Alt-F6 访问   2. 文件系统跳转1、pwd ：打印工作目录 2、ls ：列出工作目录下的文件与目录     参数为多个路径时，即可同时列出多个路径下的文件     -a ：列出所有文件，包括以&quot;.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-14T03:13:26.863Z">
-<meta property="article:modified_time" content="2025-03-16T02:58:10.876Z">
+<meta property="article:published_time" content="2025-04-25T11:14:43.013Z">
+<meta property="article:modified_time" content="2025-04-02T02:59:10.638Z">
 <meta property="article:author" content="ZZZ">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Shell">
@@ -72,7 +72,7 @@
 
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title active" href="/2025/03/14/TLCL/"><span class="title">TLCL 学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/04/25/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title" href="/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a><a class="item title active" href="/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">The Linux Command Line 学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -86,23 +86,18 @@
     
 <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-14T03:13:26.863Z">2025-03-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-16T02:58:10.876Z">2025-03-16</time></span></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-25T11:14:43.013Z">2025-04-25</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-02T02:59:10.638Z">2025-04-02</time></span></div></div>
 </div>
 
     
     <div class="bottom">
       <div class="text-area">
-        <h1 class="text title"><span>TLCL 学习笔记</span></h1>
+        <h1 class="text title"><span>The Linux Command Line 学习笔记</span></h1>
       </div>
     </div>
     
   </div>
   </div><article class="md-text content"><hr>
-<h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a>0. 前言</h1><pre><code>1、当前版本：U2
-2、本书梗概：Linux常用指令、Shell编程语法
-3、备注：跳过了一些不重要或可被更简易程序/语法替代的知识点
-</code></pre>
-<hr>
 <h1 id="1-什么是shell"><a href="#1-什么是shell" class="headerlink" title="1. 什么是shell"></a>1. 什么是shell</h1><pre><code>1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普通用户权限执行
 2、系统后台持续运行中的虚拟终端可以通过按下 Ctrl-Alt-F1 到 Ctrl-Alt-F6 访问
 </code></pre>
@@ -730,24 +725,23 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/2025/03/14/TLCL/" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/2025/03/14/TLCL/&title=TLCL 学习笔记 - 云端知识库&summary=
-0. 前言1、当前版本：U2
-2、本书梗概：Linux常用指令、Shell编程语法
-3、备注：跳过了一些不重要或可被更简易程序/语法替代的知识点
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=The Linux Command Line 学习笔记 - 云端知识库&summary=
+1. 什么是shell1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普通用户权限执行
+2、系统后台持续运行中的虚拟终端可以通过按下 Ctrl-Alt-F1 到 Ctrl-Alt-F6 访问
 
 
-1. 什么是shell1、提示符中的符号 # 代表以超级用户权限执行，$ 代表以普..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=TLCL 学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/2025/03/14/TLCL/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+2. 文件系统跳转1、pw..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=The Linux Command Line 学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/2025/03/14/TLCL/"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/04/25/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++基础知识 学习笔记</a></div><div class="item" id="next"></div></section></div>
 
 
 

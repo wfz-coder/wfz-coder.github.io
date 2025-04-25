@@ -1,0 +1,443 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin><link rel="preconnect" href="https://unpkg.com" crossorigin><link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>C陷阱与缺陷 学习笔记 - 云端知识库</title>
+
+  
+    <meta name="description" content="1. 词法陷阱1、判断时可以将判断值放前面，避免运算符&#39;&#x3D;&#x3D;&#39;写错，如 NULL &#x3D;&#x3D; p 2、用单引号括起的字符本质上是一个数。用双引号括起的字符串本质上是一个指针 3、短路求值：由于运算优先级的缘故，某些情况下，后面的运算不会进行     例如：v &#x3D; a &amp;&amp; b++，当 a &#x3D; 0的时候，b将不会自增 4、不要因为尝试对齐，而为十进制书面值添加0，这会让它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C陷阱与缺陷 学习笔记">
+<meta property="og:url" content="https://acjb-github.github.io/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="云端知识库">
+<meta property="og:description" content="1. 词法陷阱1、判断时可以将判断值放前面，避免运算符&#39;&#x3D;&#x3D;&#39;写错，如 NULL &#x3D;&#x3D; p 2、用单引号括起的字符本质上是一个数。用双引号括起的字符串本质上是一个指针 3、短路求值：由于运算优先级的缘故，某些情况下，后面的运算不会进行     例如：v &#x3D; a &amp;&amp; b++，当 a &#x3D; 0的时候，b将不会自增 4、不要因为尝试对齐，而为十进制书面值添加0，这会让它">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-04-25T11:14:43.018Z">
+<meta property="article:modified_time" content="2025-04-25T07:49:47.041Z">
+<meta property="article:author" content="ZZZ">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="C">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/xaoxuu/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/xaoxuu/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/xaoxuu/favicon/favicon-16x16.png"><link rel="manifest" href="/assets/xaoxuu/favicon/site.webmanifest"><link rel="shortcut icon" href="/assets/xaoxuu/favicon/favicon.ico"><meta name="theme-color" content="#f8f8f8"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css" media="all" />
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="/assets/icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/"><div class="main" ff="title">Stellar</div><div class="sub cap">但行好事，莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="技术" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="理论" href="/topic/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="哲学" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="艺术" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/04/25/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title active" href="/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a><a class="item title" href="/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">The Linux Command Line 学习笔记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-25T11:14:43.018Z">2025-04-25</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-25T07:49:47.041Z">2025-04-25</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>C陷阱与缺陷 学习笔记</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><hr>
+<h1 id="1-词法陷阱"><a href="#1-词法陷阱" class="headerlink" title="1. 词法陷阱"></a>1. 词法陷阱</h1><pre><code>1、判断时可以将判断值放前面，避免运算符&#39;==&#39;写错，如 NULL == p
+2、用单引号括起的字符本质上是一个数。用双引号括起的字符串本质上是一个指针
+3、短路求值：由于运算优先级的缘故，某些情况下，后面的运算不会进行
+    例如：v = a &amp;&amp; b++，当 a = 0的时候，b将不会自增
+4、不要因为尝试对齐，而为十进制书面值添加0，这会让它们变成八进制表示
+5、字符串默认以&#39;\0&#39;结尾（在内存中表示为00）
+    所以具有n个字符的字符串，实际上空间占用为n+1，但有效长度为n
+    因此分配空间时，总是为字符串多预留一个空间
+6、相邻的字符串常量会被自动合并成一个字符串
+    这意味着如果漏掉两个字符串间的逗号，编译器会合并两个字符串，导致逻辑错误
+    例如：available_resource[2] 会变成 &quot;Crayon-line drawing routines&quot;
+    char *available_resouces[] = &#123;
+        &quot;color monitor&quot;,
+        &quot;big disk&quot;,
+        &quot;Cray&quot; /*哇！少了个逗号。
+        &quot;on-line drawing routhines&quot;,
+        &quot;mouse&quot;,
+        &quot;keyboard&quot;,
+        &quot;power cables&quot;
+    &#125;;
+</code></pre>
+<hr>
+<h1 id="2-语法陷阱"><a href="#2-语法陷阱" class="headerlink" title="2. 语法陷阱"></a>2. 语法陷阱</h1><pre><code>1、如果想把声明变成强制转换，需要按以下方式进行封装
+    A. 去掉所有的变量名 
+    B. 去掉所有的分号
+    C. 将整体用括号括起来
+    例如：void (*p_func)(int) 可变成 (void (*)(int))
+2、即使函数调用时，该函数没有参数，也应该带括号
+    不带括号的也是一个函数调用语句，但只是计算该函数的地址而不调用
+3、else会与最近的、未配对的if相匹配，所以不要偷懒不写花括号
+4、C语言声明的优先级：
+    A 声明中被括号括起来的那部分
+    B 后缀表达式，如 () 表示函数，[] 表示数组
+    C 前缀操作符，如 * 表示指针
+    如果处理上述优先级时，遇到const或volatile关键字
+        若后跟类型说明符（如int, long）时，作用于类型说明符
+        其他情况下，作用于它左边紧邻的指针 * 号
+    总的来说：从内到外，从右到左（但后缀优先）
+    例如：char * const *(*next)();	
+        A 声明了一个名为 next 的变量
+        B 它是一个函数指针，指向一个无参数
+        C 返回值为常量指针
+        D 该常量指针指向一个 char 的指针
+</code></pre>
+<hr>
+<h1 id="3-语义陷阱"><a href="#3-语义陷阱" class="headerlink" title="3. 语义陷阱"></a>3. 语义陷阱</h1><pre><code>1、C语言原生支持一维数组。多维数组本质上是数组的数组。
+    在 C89/90 标准中，数组的大小必须在编译时就作为一个常数确定下来
+    C99 引入了变长数组 (VLA)，允许在运行时确定数组大小
+2、对于数组（在其定义的作用域内），可以做以下主要事情
+    使用 sizeof 运算符确定其总字节大小
+    通过下标 [] 访问其任意元素
+    在大多数表达式中，数组名会隐式转换为指向其第一个元素的指针
+3、每次使用malloc时，最好用判断语句来判断其是否分配成功
+4、为局部变量显式地分配内存时，应当在离开局部域时为其显式的释放，避免内存泄漏
+5、直接使用数组名，在大多数表达式中会退化成指向数组首元素的指针
+    因此，不能直接将一个字符串常量赋值给字符数组，因为前者是地址
+6、指针只保存地址。因此复制指针只会使两个指针指向同一块内存区域
+7、main函数也具有返回值。如果不为其声明返回类型，则默认返回类型为整型
+    返回值为0代表成功，返回值为非0代表执行不成功
+    为了避免不必要的麻烦，建议显式地为main函数return 0
+8、局部变量的生命周期仅限于所在块，这可能会导致返回结果错误
+    是否可以安全地返回局部变量取决于要返回的是值还是指针
+    如果是指针，则return时内存已释放，导致返回的指针可能成为悬空指针
+    例如：返回的类型与函数的类型不符，编译器会返回其地址，造成数据损坏
+    char * localized_time(char * filename)
+    &#123;
+        char buffer[120];
+        /* 代码片段 */
+        return buffer;
+    &#125;
+</code></pre>
+<hr>
+<h1 id="4-链接"><a href="#4-链接" class="headerlink" title="4. 链接"></a>4. 链接</h1><pre><code>1、可执行程序的生成过程分为以下几步：
+    A. 预处理处理：检查和展开头文件，进行宏文本替换
+    B. 编译：进行语法检查，并将源文件中的高级语言描述转换为汇编
+    C. 汇编：将汇编转为二进制机器码，为每个源文件生成对应的目标文件
+        如果编译器开启了优化选项，则目标文件的代码还会经过优化器处理
+    D. 链接：将多个目标文件整合为一个可执行程序
+2、extern 关键字：用于显式地说明对应变量的存储空间已经在其他地方进行了分配
+    告诉编译器，不要为它分配存储空间。链接器会自行找到其实际定义
+    如果在代码块里使用，则它将引用一个全局变量而非块外已定义的同名局部变量
+        例如：int my_var = 10;
+              void func() &#123; 
+                int my_var = 20; 
+                printf(&quot;Local my_var: %d\n&quot;, my_var);
+                &#123; 
+                    extern int my_var;
+                    printf(&quot;via extern: %d\n&quot;, my_var);
+                &#125; 
+                printf(&quot;inner block: %d\n&quot;, my_var);
+              &#125;
+3、static 关键字：用于显式地修饰某个变量或某个函数的定义域为当前源文件
+    用于文件作用域的变量或函数时：将其链接属性修改为内部链接
+    用于块作用域（函数内部）的变量时：修改其存储期为静态存储期（只初始化一次）
+4、const 并不真正表示一个常量，而只是表示只读
+    const 修饰的变量不能用于需要编译时常量的场合
+        例如：const int two = 2; case two: printf(&quot;case 2\n&quot;)
+    其有用之处在于保证函数不会修改实参指针所指的数据
+5、动态链接库和静态链接库
+    静态库文件：本质上是多个目标文件的归档
+        链接时，将需要的部分抽出来，以静态链接方式合并到可执行文件中
+    动态库文件：本质上是可执行代码和数据的集合，被设计为在运行时被多个程序共享加载和使用
+        链接时，只检查该动态库是否存在。运行时，依赖操作系统查找并加载需要的部分到内存中
+</code></pre>
+<hr>
+<h1 id="5-库函数"><a href="#5-库函数" class="headerlink" title="5. 库函数"></a>5. 库函数</h1><pre><code>1、getchar函数会返回int，如果用char去接，那么超出-128-127的数值将会导致未定义行为
+2、setbuffer：用于将写入到stdout的内容转移到指定的buffer，直到其填满或被手动flush为止
+    如果该函数在局部区域内使用，应确保其在离开域前，不被提前释放
+3、errno：一个外部变量，用于取得库函数执行失败时的返回值
+    errno的值可能是其他库函数执行失败的结果
+    确保当前库函数提供了错误码且出错时，再去取得它的值做检测
+4、fread 和 fwrite 会自动更新文件指针。所以不需要在连续的读或连续的写之间调用 fseek
+</code></pre>
+<hr>
+<h1 id="6-预处理器"><a href="#6-预处理器" class="headerlink" title="6. 预处理器"></a>6. 预处理器</h1><pre><code>1、宏定义不会像函数调用那样带来开销，所以可以用于替换一些频繁而简单的操作，例如getchar
+2、要清楚地认识到，宏定义只是文本替换，因此其内部的运算符号优先级不会因此提前
+    每次进行宏定义时，应当把每个参数，整个结果表达式都用括号括起来
+3、在宏定义时，内部若出现++、--等自增自减符号，一般都会出现副作用，即他们可能执行两次
+    例如：biggest = ((biggest)) &gt; (x[i++])) ? (biggest) : (x[i++]));
+4、宏定义并不是类型定义，应该使用typedef而不是#define来进行声明
+</code></pre>
+<hr>
+<h1 id="7-可移植性缺陷"><a href="#7-可移植性缺陷" class="headerlink" title="7. 可移植性缺陷"></a>7. 可移植性缺陷</h1><pre><code>1、如果c是一个char，使用unsigned修饰并不会转换为等价的无符号整数，因为它将首先被转为int
+    正确的方法是不要偷懒，用 unsigned char 去修饰
+2、右移比除法的运算速度要更快，不过如果被除数为负数则可能不适用
+</code></pre>
+<hr>
+<h1 id="8-数组"><a href="#8-数组" class="headerlink" title="8. 数组"></a>8. 数组</h1><pre><code>1、指针和数组使用的是一套硬件机制，即偏移量和指针，但是两者并不完全等价
+2、如果有int a[10], *p, i=2; 则访问 a[i] 的方式可以为：
+    A. 首地址方式： p=a; a[i] 或 i[a]
+    B. 先偏移再取址：p=a; *(p+i)
+    C. 先取址再偏移：p=a+i; *(p)
+3、实参：调用函数时传递给函数的值；形参：函数定义或声明原型中使用的变量
+    数组形参在编译时只取首地址的指针，从而节约时间和空间
+    因此在函数内对其sizeof将会导致结果不正确
+4、多维数组作为形参，声明时必须提供除了最左边一维以外的所有维长度
+    例如：int a[2][3][4]，可以写为 int a[][3][4]
+5、C语言的数组在内存中为一维排布，所以总是最右边的下标先变化
+6、指针数组只能由单独数组的形式初始化
+    例如：int r1[] = &#123;1, 2&#125;; int r2[] = &#123;3, 4&#125; int *p[] = &#123;r1, r2&#125;
+</code></pre>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=C陷阱与缺陷 学习笔记 - 云端知识库&summary=
+1. 词法陷阱1、判断时可以将判断值放前面，避免运算符&#39;==&#39;写错，如 NULL == p
+2、用单引号括起的字符本质上是一个数。用双引号括起的字符串本质上是一个指针
+3、短路求值：由于运算优先级的缘故，某些情况下，..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=C陷阱与缺陷 学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C与指针 学习笔记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/04/25/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++基础知识 学习笔记</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">ZZZ</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
