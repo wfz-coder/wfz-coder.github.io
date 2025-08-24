@@ -22,12 +22,12 @@
     <meta name="description" content="1. 基本概念1、指针的优势：对底层内存几乎无限制的访问，且可以直接在上面做数据修改     这种方式速度快，且操作自由。但也需要程序员自行实现安全的访问和操作   2. 数据1、基本数据类型：整型、浮点型、指针和聚合类型（如数组或struct） 2、长整型至少和整型一样长，整型至少和短整型一样长     标准并没有规定长整型一定要比短整型长，只是规定它不得比短整型短     short int">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C与指针 学习笔记">
-<meta property="og:url" content="https://acjb-github.github.io/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:url" content="https://acjb-github.github.io/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="云端知识库">
 <meta property="og:description" content="1. 基本概念1、指针的优势：对底层内存几乎无限制的访问，且可以直接在上面做数据修改     这种方式速度快，且操作自由。但也需要程序员自行实现安全的访问和操作   2. 数据1、基本数据类型：整型、浮点型、指针和聚合类型（如数组或struct） 2、长整型至少和整型一样长，整型至少和短整型一样长     标准并没有规定长整型一定要比短整型长，只是规定它不得比短整型短     short int">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-04-25T11:14:43.022Z">
-<meta property="article:modified_time" content="2025-04-25T04:28:05.675Z">
+<meta property="article:published_time" content="1970-01-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-25T04:28:05.000Z">
 <meta property="article:author" content="ZZZ">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
@@ -71,7 +71,7 @@
 
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/04/25/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title active" href="/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2025/04/25/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">The Linux Command Line 学习笔记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">调试与优化学习笔记</span></a><a class="item title" href="/1970/01/01/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/1970/01/01/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title active" href="/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/1970/01/01/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">The Linux Command Line 学习笔记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -85,7 +85,7 @@
     
 <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-25T11:14:43.022Z">2025-04-25</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-25T04:28:05.675Z">2025-04-25</time></span></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="1970-01-01T00:00:00.000Z">1970-01-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-25T04:28:05.000Z">2025-04-25</time></span></div></div>
 </div>
 
     
@@ -366,23 +366,23 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=C与指针 学习笔记 - 云端知识库&summary=
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=C与指针 学习笔记 - 云端知识库&summary=
 1. 基本概念1、指针的优势：对底层内存几乎无限制的访问，且可以直接在上面做数据修改
     这种方式速度快，且操作自由。但也需要程序员自行实现安全的访问和操作
 
 
-2. 数据1、基本数据类型：整型、浮点型、指针和聚合类型（如数组或..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=C与指针 学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+2. 数据1、基本数据类型：整型、浮点型、指针和聚合类型（如数组或..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=C与指针 学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/2025/04/25/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/04/25/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C陷阱与缺陷 学习笔记</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/1970/01/01/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++基础知识 学习笔记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/1970/01/01/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">The Linux Command Line 学习笔记</a></div></section></div>
 
 
 

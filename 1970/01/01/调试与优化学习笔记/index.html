@@ -1,0 +1,386 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin><link rel="preconnect" href="https://unpkg.com" crossorigin><link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>调试与优化学习笔记 - 云端知识库</title>
+
+  
+    <meta name="description" content="在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现 1gcc -g -o XXX XXX.c  为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="调试与优化学习笔记">
+<meta property="og:url" content="https://acjb-github.github.io/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="云端知识库">
+<meta property="og:description" content="在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现 1gcc -g -o XXX XXX.c  为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="1970-01-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-24T11:45:46.000Z">
+<meta property="article:author" content="ZZZ">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="gdb">
+<meta property="article:tag" content="perf">
+<meta property="article:tag" content="Valgrind">
+<meta property="article:tag" content="coredump">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="Linux,C++,gdb,perf,Valgrind,coredump">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/xaoxuu/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/xaoxuu/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/xaoxuu/favicon/favicon-16x16.png"><link rel="manifest" href="/assets/xaoxuu/favicon/site.webmanifest"><link rel="shortcut icon" href="/assets/xaoxuu/favicon/favicon.ico"><meta name="theme-color" content="#f8f8f8"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css" media="all" />
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><div class="icon"><img no-lazy class="icon" src="/assets/icon.svg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></div><a class="title" href="/"><div class="main" ff="title">Stellar</div><div class="sub cap">但行好事，莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="技术" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="理论" href="/topic/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="哲学" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="艺术" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title active" href="/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">调试与优化学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/1970/01/01/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/1970/01/01/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title" href="/1970/01/01/C%E4%B8%8E%E6%8C%87%E9%92%88%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a><a class="item title" href="/1970/01/01/The%20Linux%20Command%20Line%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">The Linux Command Line 学习笔记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="1970-01-01T00:00:00.000Z">1970-01-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-24T11:45:46.000Z">2025-08-24</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>调试与优化学习笔记</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -o XXX XXX.c</span><br></pre></td></tr></table></figure>
+
+<p>为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加入 -g 调试选项。这个选项能方便 coredump 和 perf 分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gdb ./XXX</span><br><span class="line">(gdb) run</span><br><span class="line">(gdb) bt</span><br><span class="line">(gdb) quit</span><br></pre></td></tr></table></figure>
+
+<p>运行程序：输入 run（或简写为 r）<br>查看出错的调用帧（看炸掉的点在哪）：输入 backtrace（或简写为 bt）<br>退出调试：输入 quit (或简写为 q)</p>
+<p>有时候程序在线上环境中崩溃，我们无法实时用 GDB 附加。这时 coredump 文件就成了救星</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c unlimited</span><br></pre></td></tr></table></figure>
+
+<p>这个命令会允许生成不限大小的 coredump 文件。<strong>但此命令只在当前终端会话中有效</strong><br>在ubuntu server中，coredump 会被 &#x2F;usr&#x2F;share&#x2F;apport&#x2F;apport 吃掉，并把它变成自己的报告格式，临时解决方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -w kernel.core_pattern=core</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们再去运行程序，就会在代码目录下同时生成 $core.<pid>$ 文件，可使用 gdb 将其打开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb ./crash_program core.XXX</span><br></pre></td></tr></table></figure>
+
+<p>perf 是一个性能分析工具，能获取程序运行时的基本性能统计数据，例如指令数、周期数和缓存命中率等</p>
+<p>在不深入代码细节的情况下，可以使用 stat 来快速获得一个程序或整个系统的宏观性能概览</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo perf stat ./XXX</span><br></pre></td></tr></table></figure>
+
+<p>系统默认阻止非 root 用户使用 perf 这类强大的性能分析工具。因为 perf 可以监控到非常底层的系统信息，比如内核函数的调用、其他用户进程的活动等，如果不加限制，可能会导致信息泄露。知根知底的情况下，可以通过 sudo 的方式去绕开这一限制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Performance counter stats for &#x27;./XXX&#x27;:</span><br><span class="line"></span><br><span class="line">          2395.59 msec task-clock                       #    0.994 CPUs utilized             </span><br><span class="line">               71      context-switches                 #   29.638 /sec                      </span><br><span class="line">                2      cpu-migrations                   #    0.835 /sec                      </span><br><span class="line">               64      page-faults                      #   26.716 /sec                      </span><br><span class="line">  &lt;not supported&gt;      cycles                                                                </span><br><span class="line"></span><br><span class="line">      2.409789043 seconds time elapsed</span><br><span class="line"></span><br><span class="line">      2.395581000 seconds user</span><br><span class="line">      0.000996000 seconds sys</span><br></pre></td></tr></table></figure>
+
+<p>运行结束后，<code>perf stat</code> 会打印出一份报告，包含指令数、周期数、缺页中断数等信息。上述数据有助于判断是否多线程竞争，是 CPU 密集型任务，还是 I&#x2F;O 密集型任务等。例如，如果 time elapsed 远大于 task-clock，同时缺页中断又比较高，那就有可能是 I&#x2F;O 卡了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perf trace -o XXX</span><br></pre></td></tr></table></figure>
+
+<p>此时，可以执行上述指令，去跟踪程序执行时文件系统的读写过程</p>
+<p>当需要进一步地结合代码细节去看运行的情况，则可以运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo perf record ./XXX</span><br></pre></td></tr></table></figure>
+
+<p>执行上述程序会输出一个 perf.data 文件，可以通过 perf report 读取，它是交互式的。里面是一个函数列表，按 CPU 占用率从高到低排列。可以通过 Annotate 功能去汇编层面上分析。其中，Overhead 是最重要的信息。它显示了在 perf record 采样期间，有多少比例的 CPU 时间命中了这一行汇编指令。百分比越高，说明 CPU 在执行这条指令上花费的时间越多</p>
+<p>当一个 Bug 不是立刻出现，而是在大量循环之后才触发时，设置条件断点和观察点有助于避免手动单步调试的麻烦</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break XXX.c:19 if i == 999</span><br><span class="line">(gdb) next</span><br></pre></td></tr></table></figure>
+
+<p>如果程序只会在一定次数后崩溃（如 for 循环），那其实类似上面那样可以设置条件断点。等到达断点后，再执行单步</p>
+<p>更多时候，我们并不能知道错误点发生的原因，但可能只知道某个变量（指针）被错误的修改，从而导致上述错误的发生。这时便可以运用观察点观察该变量。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) watch XXX</span><br><span class="line">(gdb) continue</span><br></pre></td></tr></table></figure>
+
+<p>gdb 会展示出变量修改前后的值，以及停下来所在的代码行。如果停下来的点不是预期点，可以执行 continue（或简写为 c）</p>
+<p>有时候程序是以多线程执行的，此时分析 coredump 的方式会有所不同</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">info threads</span><br><span class="line">(gdb) thread 1 </span><br><span class="line">(gdb) bt</span><br></pre></td></tr></table></figure>
+
+<p>执行 gdb 后，程序会列出很多个线程，或者也可以用 info threads 手动查看。此时，可以通过 thread + 数字 的方式去 bt 对应的线程，来查看它们各自停下来的点，从而拼凑出多线程执行时的具体情况（例如，死锁循环等待）</p>
+<p>当性能瓶颈涉及多个函数调用时，可以使用调用图 (Call Graph) 来分析性能的来龙去脉</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">perf record -F 99 -g ./XXX</span><br><span class="line">perf report</span><br></pre></td></tr></table></figure>
+
+<p>绘制调用图的关键在于加入 -g 选项。它告诉 <code>perf</code> 在采样时记录函数的调用关系。<br>-F 99 选项指定采样频率为 99HZ，避免与系统计时器产生固定的相位关系</p>
+<p>执行 perf report 后，在对应的行按下 + 号，就可以看到它的调用关系（展开列表里，该函数的上一行便是它的最近调用者），以及每一层所占用的资源比例</p>
+<p>单纯的调用图可能还不够直观，这里可以通过网络上提供的脚本来生成对应的火焰图</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/brendangregg/FlameGraph</span><br><span class="line">perf script | ./FlameGraph/stackcollapse-perf.pl &gt; out.folded ./FlameGraph/flamegraph.pl out.folded &gt; XXX.svg</span><br></pre></td></tr></table></figure>
+
+<p>如何分析火焰图？<br>    对于X轴，看它的“平顶”的宽度，因为这是刨除它调用的函数后，自己执行的时间<br>    对于Y轴，看他的层数，这代表调用栈的深度，同时也是函数调用关系的直观展示</p>
+<p>如果说 gdb 能在程序崩溃后进行解剖，找出死因，那么 Valgrind 则能在程序运行时找出各种潜在的内存问题，哪怕这些问题还没有导致程序崩溃。这对于预防上述问题很有帮助</p>
+<p> Valgrind 并不使程序直接在 CPU 上执行，而是将其代码翻译成一种中间形态，然后在 Valgrind 的虚拟 CPU 上执行。在这个过程中，Valgrind 可以对每一条内存访问、每一次函数调用进行插桩和检查。因为这种模拟执行的方式，程序将运行得非常慢，并且会消耗更多内存</p>
+<p> 当提及 Valgrind 时，95% 的场景是其使用默认工具 Memcheck，对潜在的内存泄漏问题进行分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all ./XXX</span><br></pre></td></tr></table></figure>
+
+<p>使用上述指令来对各种泄露问题进行详细检查。还是一样，建议在 gcc 编译时加上 -g，以便在结果输出时显示行号。还可以通过附加 –track-origins&#x3D;yes 选项，以查找变量使用的脏数据来源</p>
+<p>Valgrind 输出的报告会分为多个部分，分别是：</p>
+<ol>
+<li>堆内存使用总结部分：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">in use at exit: X bytes in Y blocks</span><br><span class="line">total heap usage: X allocs, Y frees, Z bytes allocated</span><br></pre></td></tr></table></figure>
+
+<p>通过分析这些数字的关系，则可以大概知道堆内存是否有泄露，但还需要看下面的详情部分</p>
+<ol start="2">
+<li>泄露详情部分：</li>
+</ol>
+<ul>
+<li>Conditional jump or move depends on uninitialised value(s) at X【未初始化值的使用】</li>
+<li>Invalid write&#x2F;read of size Y at X 【越界读取或写入、使用已释放的内存】</li>
+<li>Invalid free() &#x2F; delete &#x2F; delete[] &#x2F; realloc() at X 【重复释放】</li>
+</ul>
+<ol start="2">
+<li>泄漏类型总结部分：</li>
+</ol>
+<ul>
+<li>definitely lost (明确丢失) 通常发生于没有任何指针可以访问到这块内存</li>
+<li>indirectly lost (间接丢失) 通常发生于类或结构体的明确丢失导致的成员丢失</li>
+<li>possibly lost (可能丢失)：这是一种比较模糊的情况。Valgrind 发现有一个指针指向这块内存的内部，而不是头部。这可能是程序员在进行一些复杂的指针运算，也可能是一个真正的泄漏</li>
+<li>still reachable (仍可访问)：程序退出时，仍然有指针指向这块内存（比如一个全局指针），但程序自始至终没有释放它。这算是一种懒惰的写法，在某些短生命周期的程序中可以接受，但在长时间运行的服务器程序中，这就是一种需要修复的资源泄漏</li>
+</ul>
+<p>当然，在一个依赖中间件的复杂系统上，无法单独剥离某个模块来做 Valgrind 的分析，这种情况下就需要写单元测试了。但这不是本笔记所关心的内容</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=调试与优化学习笔记 - 云端知识库&summary=在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=调试与优化学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/1970/01/01/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/1970/01/01/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C陷阱与缺陷 学习笔记</a></div><div class="item" id="next"></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">ZZZ</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
