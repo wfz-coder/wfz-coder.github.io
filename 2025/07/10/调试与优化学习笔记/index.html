@@ -19,18 +19,18 @@
   <title>调试与优化学习笔记 - 云端知识库</title>
 
   
-    <meta name="description" content="在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现 1gcc -g -o XXX XXX.c  为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加">
+    <meta name="description" content="在很多时候，我们不仅要关注程序的执行结果，还要关心程序的执行效率，这可以通过 perf 来分析。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们事后调试，这可以通过 gdb 和 分析 coredump 来实现。而如果不想上线后才发现内存泄漏，则可以通过 Valgrind 来进行事前预防 1gcc -g -o XXX XXX.c  首先，为了让 gdb 能够显示源">
 <meta property="og:type" content="article">
 <meta property="og:title" content="调试与优化学习笔记">
 <meta property="og:url" content="https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="云端知识库">
-<meta property="og:description" content="在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现 1gcc -g -o XXX XXX.c  为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加">
+<meta property="og:description" content="在很多时候，我们不仅要关注程序的执行结果，还要关心程序的执行效率，这可以通过 perf 来分析。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们事后调试，这可以通过 gdb 和 分析 coredump 来实现。而如果不想上线后才发现内存泄漏，则可以通过 Valgrind 来进行事前预防 1gcc -g -o XXX XXX.c  首先，为了让 gdb 能够显示源">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-10T09:24:32.000Z">
-<meta property="article:modified_time" content="2025-08-24T13:20:21.000Z">
+<meta property="article:modified_time" content="2025-08-24T15:45:10.000Z">
 <meta property="article:author" content="ZZZ">
-<meta property="article:tag" content="Linux">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
 <meta property="article:tag" content="gdb">
 <meta property="article:tag" content="perf">
 <meta property="article:tag" content="Valgrind">
@@ -39,7 +39,7 @@
   
   
   
-  <meta name="keywords" content="Linux,C++,gdb,perf,Valgrind,coredump">
+  <meta name="keywords" content="C++,Linux,gdb,perf,Valgrind,coredump">
 
   <!-- feed -->
   
@@ -76,7 +76,7 @@
 
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/07/25/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%95%99%E5%AD%A6%E5%8E%9F%E5%88%99/"><span class="title">大模型交互式教学原则</span></a><a class="item title" href="/2025/01/20/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8EShell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux命令行与Shell编程学习笔记</span></a><a class="item title active" href="/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">调试与优化学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2025/06/12/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/2025/04/05/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title" href="/2025/03/19/C%E4%B8%8E%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title active" href="/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">调试与优化学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2025/07/25/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%95%99%E5%AD%A6%E5%8E%9F%E5%88%99/"><span class="title">大模型交互式教学原则</span></a><a class="item title" href="/2025/01/20/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8EShell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux命令行与Shell编程学习笔记</span></a><a class="item title" href="/2025/06/12/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/2025/04/05/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title" href="/2025/03/19/C%E4%B8%8E%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -90,7 +90,7 @@
     
 <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-10T09:24:32.000Z">2025-07-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-24T13:20:21.000Z">2025-08-24</time></span></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-10T09:24:32.000Z">2025-07-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-24T15:45:10.000Z">2025-08-24</time></span></div></div>
 </div>
 
     
@@ -101,17 +101,54 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><p>在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现</p>
+  </div><article class="md-text content"><p>在很多时候，我们不仅要关注程序的执行结果，还要关心程序的执行效率，这可以通过 perf 来分析。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们事后调试，这可以通过 gdb 和 分析 coredump 来实现。而如果不想上线后才发现内存泄漏，则可以通过 Valgrind 来进行事前预防</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -o XXX XXX.c</span><br></pre></td></tr></table></figure>
 
-<p>为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加入 -g 调试选项。这个选项能方便 coredump 和 perf 分析</p>
+<p>首先，为了让 gdb 能够显示源代码信息（例如行号、变量名），我们必须在编译时加入 -g 调试选项。同时，这个选项能方便 coredump 和 perf 分析</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gdb ./XXX</span><br><span class="line">(gdb) run</span><br><span class="line">(gdb) bt</span><br><span class="line">(gdb) quit</span><br></pre></td></tr></table></figure>
 
-<p>运行程序：输入 run（或简写为 r）<br>查看出错的调用帧（看炸掉的点在哪）：输入 backtrace（或简写为 bt）<br>退出调试：输入 quit (或简写为 q)</p>
+<ul>
+<li>run：运行程序，或简写为 r</li>
+<li>backtrace：查看出错的调用帧（看炸掉的点在哪），或简写为 bt</li>
+<li>quit：退出调试，或简写为 q</li>
+</ul>
+<p>当程序没有崩溃，但运行结果不符合预期时，就需要主动暂停程序一步步检查其运行状态。这时，最基本也最常用的就是设置断点和单步执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break LINE_NUMBER</span><br><span class="line">(gdb) break FUNCTION_NAME</span><br><span class="line">(gdb) info breakpoints</span><br><span class="line">(gdb) delete BREAKPOINT_NUMBER</span><br></pre></td></tr></table></figure>
+
+<p>断点可以通过行号来打，也可以通过函数名来打<br>可以通过 info breakpoints 查询打的断点有哪些，并且通过查询到的断点编号来将其删除</p>
+<p>当程序在断点处停下后，我们就可以控制它一步步地往下执行，同时观察变量的变化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) next</span><br><span class="line">(gdb) step</span><br><span class="line">(gdb) finish</span><br><span class="line">(gdb) until</span><br></pre></td></tr></table></figure>
+<ul>
+<li>next：如果当前行是一个函数调用，next 会将该函数视为一个整体，一次性执行完毕，然后停在函数调用的下一行。它不会进入函数内部</li>
+<li>step：如果当前行是一个函数调用，step 会进入该函数内部，并停在函数体的第一行。这对于需要追踪函数内部细节的场景非常有用</li>
+<li>finish：执行当前函数剩余的部分，然后停在函数返回之后的位置。当你不小心用 step 命令进入一个你并不关心的函数时，这个命令可以帮助你快速跳出</li>
+<li>until: 在一个循环体中，如果你想快速执行到循环结束后的某一行，可以使用 此命令。它会运行程序直到超出当前循环块</li>
+</ul>
+<p>程序停下来后，最有价值的操作就是检查当前上下文中的变量值。可以通过以下指令打印指定变量的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) print VARIABLE_NAME</span><br></pre></td></tr></table></figure>
+
+<p>对于某些复杂的 Bug，我们可能错过了问题发生的精确时刻。例如，一个变量在某个时刻被意外修改，但当通过断点发现时，已经太晚了，无法知道是哪一行代码导致了错误。反向调试功能允许我们在程序出错后，回溯程序的执行过程，查看过去的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) record full</span><br><span class="line">(gdb) continue</span><br></pre></td></tr></table></figure>
+
+<p>首先，在认为 Bug 即将发生的代码区域之前设置一个普通断点。当程序在断点处停下后，使用 record 功能进行记录<br>接着，使用 continue 命令让程序继续运行，直到 Bug 出现<br>最后，按需执行下列指令，进行步骤回溯</p>
+<ul>
+<li>reverse-next (或 rn)：反向执行一行代码，不进入函数内部</li>
+<li>reverse-step (或 rs)：反向执行一行代码，如果上一条是函数调用，则会退回到函数调用的地方</li>
+<li>reverse-continue (或 rc)：反向持续执行，直到遇到一个断点或程序起点</li>
+<li>reverse-finish：反向执行，直到退出当前函数</li>
+</ul>
+<p>另外，当一个 Bug 不是立刻出现，而是在大量循环之后才触发时，设置条件断点和观察点有助于避免手动单步调试的麻烦</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break XXX.c:19 if i == 999</span><br><span class="line">(gdb) next</span><br></pre></td></tr></table></figure>
+
+<p>如果程序只会在一定次数后崩溃（如 for 循环），那其实类似上面那样可以设置条件断点。等到达断点后，再执行单步</p>
+<p>更多时候，我们并不能知道错误点发生的原因，但可能只知道某个变量（指针）被错误的修改，从而导致上述错误的发生。这时便可以运用观察点观察该变量。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) watch XXX</span><br></pre></td></tr></table></figure>
+
+<p>前面介绍的反向调试配合 watch 断点效果更佳</p>
 <p>有时候程序在线上环境中崩溃，我们无法实时用 GDB 附加。这时 coredump 文件就成了救星</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -c unlimited</span><br></pre></td></tr></table></figure>
 
-<p>这个命令会允许生成不限大小的 coredump 文件。<strong>但此命令只在当前终端会话中有效</strong><br>在ubuntu server中，coredump 会被 &#x2F;usr&#x2F;share&#x2F;apport&#x2F;apport 吃掉，并把它变成自己的报告格式，临时解决方法：</p>
+<p>这个命令会允许生成不限大小的 coredump 文件。但此命令只在当前终端会话中有效<br>在ubuntu server中，coredump 会被 &#x2F;usr&#x2F;share&#x2F;apport&#x2F;apport 吃掉，并把它变成自己的报告格式，临时解决方法：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -w kernel.core_pattern=core</span><br></pre></td></tr></table></figure>
 
 <p>此时，我们再去运行程序，就会在代码目录下同时生成 core 文件，可使用 gdb 将其打开</p>
@@ -132,14 +169,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo perf record ./XXX</span><br></pre></td></tr></table></figure>
 
 <p>执行上述程序会输出一个 perf.data 文件，可以通过 perf report 读取，它是交互式的。里面是一个函数列表，按 CPU 占用率从高到低排列。可以通过 Annotate 功能去汇编层面上分析。其中，Overhead 是最重要的信息。它显示了在 perf record 采样期间，有多少比例的 CPU 时间命中了这一行汇编指令。百分比越高，说明 CPU 在执行这条指令上花费的时间越多</p>
-<p>当一个 Bug 不是立刻出现，而是在大量循环之后才触发时，设置条件断点和观察点有助于避免手动单步调试的麻烦</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break XXX.c:19 if i == 999</span><br><span class="line">(gdb) next</span><br></pre></td></tr></table></figure>
-
-<p>如果程序只会在一定次数后崩溃（如 for 循环），那其实类似上面那样可以设置条件断点。等到达断点后，再执行单步</p>
-<p>更多时候，我们并不能知道错误点发生的原因，但可能只知道某个变量（指针）被错误的修改，从而导致上述错误的发生。这时便可以运用观察点观察该变量。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) watch XXX</span><br><span class="line">(gdb) continue</span><br></pre></td></tr></table></figure>
-
-<p>gdb 会展示出变量修改前后的值，以及停下来所在的代码行。如果停下来的点不是预期点，可以执行 continue（或简写为 c）</p>
 <p>有时候程序是以多线程执行的，此时分析 coredump 的方式会有所不同</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">info threads</span><br><span class="line">(gdb) thread 1 </span><br><span class="line">(gdb) bt</span><br></pre></td></tr></table></figure>
 
@@ -196,7 +225,7 @@
       <div class="header"><span>分享文章</span></div>
       <div class="body">
         <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=调试与优化学习笔记 - 云端知识库&summary=在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=调试与优化学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=调试与优化学习笔记 - 云端知识库&summary=在很多时候，我们不仅要关注程序的执行结果，还要关心程序的执行效率，这可以通过 perf 来分析。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们事后调试，这可以通过 gdb 和 分析 coredum..."><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=调试与优化学习笔记 - 云端知识库&amp;body=https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://acjb-github.github.io/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
