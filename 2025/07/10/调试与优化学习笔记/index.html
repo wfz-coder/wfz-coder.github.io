@@ -27,10 +27,10 @@
 <meta property="og:description" content="在很多时候，我们不仅要关注 C++ 程序的执行结果，还要关心程序的执行情况，如执行效率，这可以通过 perf 来实现。同时，如果程序在意想不到的地方崩溃了，而 IDE 无法给出详尽的错误原因，则需要我们手动去找出发生错误的地点，这可以通过 gdb 和 分析 coredump来实现 1gcc -g -o XXX XXX.c  为了让 GDB 能够显示源代码信息（例如行号、变量名），我们必须在编译时加">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-10T09:24:32.000Z">
-<meta property="article:modified_time" content="2025-08-24T13:14:45.000Z">
+<meta property="article:modified_time" content="2025-08-24T13:20:21.000Z">
 <meta property="article:author" content="ZZZ">
-<meta property="article:tag" content="C++">
 <meta property="article:tag" content="Linux">
+<meta property="article:tag" content="C++">
 <meta property="article:tag" content="gdb">
 <meta property="article:tag" content="perf">
 <meta property="article:tag" content="Valgrind">
@@ -39,7 +39,7 @@
   
   
   
-  <meta name="keywords" content="C++,Linux,gdb,perf,Valgrind,coredump">
+  <meta name="keywords" content="Linux,C++,gdb,perf,Valgrind,coredump">
 
   <!-- feed -->
   
@@ -76,7 +76,7 @@
 
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/12/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/2025/04/05/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title" href="/2025/03/19/C%E4%B8%8E%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a><a class="item title active" href="/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">调试与优化学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2025/01/20/The%20Linux%20Command%20Line%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">The Linux Command Line 学习笔记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/07/25/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%95%99%E5%AD%A6%E5%8E%9F%E5%88%99/"><span class="title">调试与优化学习笔记</span></a><a class="item title" href="/2025/01/20/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8EShell%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux命令行与Shell编程学习笔记</span></a><a class="item title active" href="/2025/07/10/%E8%B0%83%E8%AF%95%E4%B8%8E%E4%BC%98%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">调试与优化学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2025/06/12/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C++基础知识 学习笔记</span></a><a class="item title" href="/2025/04/05/C%E9%99%B7%E9%98%B1%E4%B8%8E%E7%BC%BA%E9%99%B7%20&%20C%E4%B8%93%E5%AE%B6%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C陷阱与缺陷 学习笔记</span></a><a class="item title" href="/2025/03/19/C%E4%B8%8E%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">C与指针 学习笔记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -90,7 +90,7 @@
     
 <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-10T09:24:32.000Z">2025-07-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-24T13:14:45.000Z">2025-08-24</time></span></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-10T09:24:32.000Z">2025-07-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-24T13:20:21.000Z">2025-08-24</time></span></div></div>
 </div>
 
     
@@ -178,12 +178,12 @@
 <li>泄漏类型总结部分：</li>
 </ol>
 <ul>
-<li>definitely lost (明确丢失) 通常发生于没有任何指针可以访问到这块内存</li>
-<li>indirectly lost (间接丢失) 通常发生于类或结构体的明确丢失导致的成员丢失</li>
+<li>definitely lost (明确丢失)：通常发生于没有任何指针可以访问到这块内存</li>
+<li>indirectly lost (间接丢失)：通常发生于类或结构体的明确丢失导致的成员丢失</li>
 <li>possibly lost (可能丢失)：这是一种比较模糊的情况。Valgrind 发现有一个指针指向这块内存的内部，而不是头部。这可能是程序员在进行一些复杂的指针运算，也可能是一个真正的泄漏</li>
 <li>still reachable (仍可访问)：程序退出时，仍然有指针指向这块内存（比如一个全局指针），但程序自始至终没有释放它。这算是一种懒惰的写法，在某些短生命周期的程序中可以接受，但在长时间运行的服务器程序中，这就是一种需要修复的资源泄漏</li>
 </ul>
-<p>当然，在一个依赖中间件的复杂系统上，无法单独剥离某个模块来做 Valgrind 的分析，这种情况下就需要写单元测试了。但这不是本笔记所关心的内容</p>
+<p>当然，在一个依赖中间件的复杂系统上，无法单独剥离某个模块来做 Valgrind 的分析，这种情况下就需要写单元测试了</p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -206,7 +206,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/12/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++基础知识 学习笔记</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/07/25/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%95%99%E5%AD%A6%E5%8E%9F%E5%88%99/">调试与优化学习笔记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/12/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++基础知识 学习笔记</a></div></section></div>
 
 
 
